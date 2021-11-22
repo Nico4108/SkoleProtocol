@@ -9,7 +9,7 @@ class Course(models.Model):
 
 
     def __str__(self):
-      return "{}".format(self.email)
+      return "{}".format(self.name)
     
     class Meta:
         db_table = 'Course'

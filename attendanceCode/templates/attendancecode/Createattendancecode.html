@@ -1,0 +1,9 @@
+{% extends 'base.html'%}
+{% block content %}
+<h1>Create attendance code</h1>
+<form action="/attendancecode/createattendancecode/" method="post">  
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button id="submit" type="submit">Create attendance code</button>
+</form>
+{% endblock %}

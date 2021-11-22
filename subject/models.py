@@ -10,7 +10,7 @@ class Subject(models.Model):
 
     
     def __str__(self):
-      return "{}".format(self.email)
+      return "{}".format(self.name)
     
     class Meta:
         db_table = 'Subject'
@@ -21,7 +21,7 @@ class StudentHasSubject(models.Model):
     subject_name = models.ForeignKey(Subject, on_delete=models.CASCADE, blank=True, null=True)  # Field name made lowercase.
     
     def __str__(self):
-      return "{}".format(self.email)
+      return "{} {} ".format(self.student_name, self.subject_name)
     
     class Meta:
         db_table = 'StudentHasSubject'

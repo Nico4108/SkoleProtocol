@@ -19,7 +19,7 @@ class Student(models.Model):
     REQUIRED_FIELDS = ['email', 'Username']
     
     def __str__(self):
-      return "{}".format(self.email)
+      return "{}".format(self.username)
     
     class Meta:
         db_table = 'Student'
