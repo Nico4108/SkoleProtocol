@@ -32,7 +32,7 @@ class AttendanceCodeForm(ModelForm):
 
 class AttendanceLog(models.Model):
     attendanceCode = models.IntegerField()
-    username_fk = models.ForeignKey(User, on_delete=models.CASCADE)
+    username_fk = models.CharField(max_length=12)
     keaclass = models.ForeignKey(Class, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
@@ -43,11 +43,11 @@ class AttendanceLog(models.Model):
     class Meta:
         db_table = 'AttendanceLog'
 
-class AttendanceCodeForm(ModelForm):
+class AttendanceLogForm(ModelForm):
     def init(self, args, **kwargs):
-        super(AttendanceCodeForm, self).__init__(args, **kwargs)
+        super(AttendanceLogForm, self).__init__(args, **kwargs)
 
     class Meta:
-        model = AttendanceCode
-        exclude = ('id', 'date')
+        model = AttendanceLog
+        exclude = ('username_fk', 'date')
         fields = '__all__'

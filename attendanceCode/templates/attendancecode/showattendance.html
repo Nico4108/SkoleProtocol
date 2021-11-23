@@ -1,0 +1,16 @@
+{% extends 'base.html'%}
+{% block content %}
+<h1>list</h1>
+<form method="get" action="/attendancecode/showattendance/">
+    <p> Class <input type="text" value={{class}} name="class"/></p>
+    <p> Subject <input type="text" value={{subject}} name="subject"/></p>
+    <p><input type="submit" value="submit" name="submit"/></p>
+</form>
+
+    <h2>Students</h2>
+    <ul>
+        {% for attendance in object_list %}
+            <li>{{ attendance.username_fk }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
