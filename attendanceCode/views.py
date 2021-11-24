@@ -68,3 +68,6 @@ class AttendanceList(LoginRequiredMixin, ListView):
         context['class'] = self.request.GET.get('class')
         context['subject'] = self.request.GET.get('subject')
         return context
+
+def loginsuccess(request):
+    return render(request, "attendancecode/Loginsuccess.html")

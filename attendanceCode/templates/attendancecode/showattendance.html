@@ -10,7 +10,7 @@
     <h2>Students</h2>
     <ul>
         {% for attendance in object_list %}
-            <li>{{ attendance.username_fk }}</li>
+            <li>{{ attendance.username_fk }} {{ attendance.date }}</li>
         {% endfor %}
     </ul>
 {% endblock %}

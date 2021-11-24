@@ -11,8 +11,6 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-from user.models import User
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -145,7 +143,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
-if User.kind_of_user == "Teacher":
-    LOGIN_REDIRECT_URL = "/attendancecode/createattendancecode/"
-else:
-     LOGIN_REDIRECT_URL = "/attendancecode/createattendancelog/"
+LOGIN_REDIRECT_URL = "/attendancecode/loginsuccess/"
+LOGOUT_REDIRECT_URL = "/accounts/login"
