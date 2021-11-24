@@ -8,6 +8,7 @@ from subject.models import Subject
 from django.db import connection
 import json
 from django.views.decorators.csrf import csrf_exempt
+from datetime import date
 # from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
 # Create your views here.
@@ -37,8 +38,11 @@ class AttendanceLogFormView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         obj = form.save(commit = False)
         user = self.request.user
-        obj.username_fk = user.username
-        if AttendanceCode.objects.filter(code=obj.attendanceCode, keaclass_id=obj.keaclass, subject_id = obj.subject, date=obj.date):
+        # obj.username_fk = user.username
+        obj.date = date.today()
+        print(obj.attendanceCode, obj.keaclass, obj.subject_id, obj.date)
+        if AttendanceCode.objects.filter(code=obj.attendanceCode, keaclass_id=obj.keaclass, subject_id = obj.subject_id, date=obj.date):
+            obj.username_fk = user.username
             obj.save()
             return super().form_valid(form)
         else:
