@@ -8,7 +8,7 @@ from django.forms import ModelForm
 # Create your models here.
 class AttendanceCode(models.Model):
     id =  models.AutoField(primary_key=True, )
-    code = models.IntegerField()
+    code = models.IntegerField(unique=True)
     keaclass = models.ForeignKey(Class, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
