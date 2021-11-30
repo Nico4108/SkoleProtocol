@@ -1,9 +1,37 @@
-{% extends 'base.html'%}
-{% block content %}
-<h1>I am attending</h1>
-<form action="/attendancecode/createattendancelog/" method="post">  
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button id="submit" type="submit">Create attendance code</button>
-</form>
+{% extends 'base.html'%} {% block content %}
+<head>
+  {% load static %}
+  <script>
+    var options = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0,
+    };
+
+    function success(pos) {
+      var crd = pos.coords;
+
+      console.log("Your current position is:");
+      console.log(`Latitude : ${crd.latitude}`);
+      console.log(`Longitude: ${crd.longitude}`);
+      console.log(`More or less ${crd.accuracy} meters.`);
+      // document.getElementById('#id_lat').value = crd.latitude;
+      document.getElementById("id_lat").value = `${crd.latitude}`;
+      document.getElementById("id_long").value = `${crd.longitude}`;
+    }
+
+    function error(err) {
+      console.warn(`ERROR(${err.code}): ${err.message}`);
+    }
+
+    navigator.geolocation.getCurrentPosition(success, error, options);
+  </script>
+</head>
+<body>
+  <h1>I am attending</h1>
+  <form action="/attendancecode/createattendancelog/" method="post">
+    {% csrf_token %} {{ form.as_p }}
+    <button id="submit" type="submit">attending</button>
+  </form>
+</body>
 {% endblock %}

@@ -5,10 +5,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages 
 from django.shortcuts import render
 from subject.models import Subject
+from keaclass.models import Class
 from django.db import connection
 import json
 from django.views.decorators.csrf import csrf_exempt
 from datetime import date
+from course.models import Course
+from school.models import School
 # from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
 # Create your views here.
@@ -38,8 +41,15 @@ class AttendanceLogFormView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         obj = form.save(commit = False)
         user = self.request.user
-        # obj.username_fk = user.username
         obj.date = date.today()
+        getClass = Class.objects.get(name=obj.keaclass)
+        getCourse = Course.objects.get(name=getClass.Course_name)
+        getLocation = School.objects.get(id=getCourse.location_id)
+        if (getLocation.lat != obj.lat and getLocation.long != obj.long):
+            print(getLocation.lat)
+            print(obj.lat)
+            print(getLocation.long)
+            print(obj.long)
         print(obj.attendanceCode, obj.keaclass, obj.subject_id, obj.date)
         if AttendanceCode.objects.filter(code=obj.attendanceCode, keaclass_id=obj.keaclass, subject_id = obj.subject_id, date=obj.date):
             obj.username_fk = user.username

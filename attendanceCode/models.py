@@ -36,6 +36,9 @@ class AttendanceLog(models.Model):
     keaclass = models.ForeignKey(Class, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
+    lat = models.DecimalField(max_digits=10, decimal_places=8, default=55.706360)
+    long = models.DecimalField(max_digits=10, decimal_places=8, default=12.539170)
+
 
     def __str__(self):
         return "{}".format(self.keaclass)
