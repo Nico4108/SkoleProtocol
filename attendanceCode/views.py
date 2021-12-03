@@ -4,15 +4,20 @@ from django.views.generic import CreateView, TemplateView, DetailView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages 
 from django.shortcuts import render
-from subject.models import Subject
+from subject.models import Subject, StudentHasSubject
 from keaclass.models import Class
+from student.models import Student
 from django.db import connection
 import json
 from django.views.decorators.csrf import csrf_exempt
 from datetime import date
 from course.models import Course
 from school.models import School
+import geopy.distance
+from datetime import datetime
+import pytz
 # from django.views.decorators.csrf import csrf_protect, csrf_exempt
+
 
 # Create your views here.
 
@@ -23,10 +28,16 @@ class AttendanceCodeFormView(LoginRequiredMixin, CreateView):
     form_class = AttendanceCodeForm
     success_url = "/attendancecode/teachersucces/"
 
+
     # Checks if data input is valid and saves object
     def form_valid(self, form):
         obj = form.save(commit = False)
         obj.user = self.request.user
+        tz_EU = pytz.timezone('Europe/Copenhagen') 
+        now = datetime.now(tz_EU)
+        current_time = now.strftime("%H:%M:%S")
+        print("Current Time =", current_time)
+        obj.time = current_time
         obj.save()
         return super().form_valid(form)
 
@@ -45,16 +56,17 @@ class AttendanceLogFormView(LoginRequiredMixin, CreateView):
         getClass = Class.objects.get(name=obj.keaclass)
         getCourse = Course.objects.get(name=getClass.Course_name)
         getLocation = School.objects.get(id=getCourse.location_id)
-        if (getLocation.lat != obj.lat and getLocation.long != obj.long):
-            print(getLocation.lat)
-            print(obj.lat)
-            print(getLocation.long)
-            print(obj.long)
-        print(obj.attendanceCode, obj.keaclass, obj.subject_id, obj.date)
-        if AttendanceCode.objects.filter(code=obj.attendanceCode, keaclass_id=obj.keaclass, subject_id = obj.subject_id, date=obj.date):
-            obj.username_fk = user.username
-            obj.save()
-            return super().form_valid(form)
+        coords_1 = (getLocation.lat, getLocation.long)
+        coords_2 = (obj.lat, obj.long)
+        #check location and that student goes in the class 
+        if (geopy.distance.distance(coords_1, coords_2).km > 0.5) and Student.objects.get(username=user.username, Class_id=obj.keaclass):
+            #check log is a code with correct info and correct date and that student has subject
+            if AttendanceCode.objects.filter(code=obj.attendanceCode, keaclass_id=obj.keaclass, subject_id = obj.subject_id, date=obj.date, isActive="True") and StudentHasSubject.objects.get(student_name_id=user.username, subject_name_id=obj.subject_id):
+                obj.username_fk = user.username
+                obj.save()
+                return super().form_valid(form)
+            else:
+                return render(self.request, './attendancecode/error.html')
         else:
             return render(self.request, './attendancecode/error.html')
 
