@@ -4,6 +4,14 @@ from subject.models import Subject
 from student.models import Student
 from user.models import User
 from django.forms import ModelForm
+from datetime import datetime
+import pytz
+
+tz_EU = pytz.timezone('Europe/Copenhagen') 
+now = datetime.now(tz_EU)
+
+current_time = now.strftime("%H:%M:%S")
+print("Current Time =", current_time)
 
 # Create your models here.
 class AttendanceCode(models.Model):
@@ -12,6 +20,8 @@ class AttendanceCode(models.Model):
     keaclass = models.ForeignKey(Class, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
+    time = models.CharField(max_length=15, default=current_time)
+    isActive = models.CharField(max_length=6, default="True")
 
     def __str__(self):
       return "{}".format(self.code)
@@ -26,7 +36,7 @@ class AttendanceCodeForm(ModelForm):
 
     class Meta:
         model = AttendanceCode
-        exclude = ('id', 'date')
+        exclude = ('id', 'date', 'time', 'isactive')
         fields = '__all__'
 
 
@@ -36,6 +46,9 @@ class AttendanceLog(models.Model):
     keaclass = models.ForeignKey(Class, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
+    lat = models.DecimalField(max_digits=10, decimal_places=8, default=55.706360)
+    long = models.DecimalField(max_digits=10, decimal_places=8, default=12.539170)
+
 
     def __str__(self):
         return "{}".format(self.keaclass)
