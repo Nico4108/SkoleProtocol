@@ -10,7 +10,7 @@
     <h2>Students</h2>
     <ul>
         {% for attendance in object_list %}
-            <li>{{ attendance.username_fk }} {{ attendance.date }}</li>
+            <li>{{ attendance.name}} has attended {{ attendance.countAttendance }} out of {{attendance.countLessons}} {{attendance.procentage}} </li>
         {% endfor %}
     </ul>
 {% endblock %}
