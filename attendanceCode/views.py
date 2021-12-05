@@ -4,9 +4,9 @@ from django.views.generic import CreateView, TemplateView, DetailView, ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages 
 from django.shortcuts import render
-from subject.models import Subject, StudentHasSubject
 from keaclass.models import Class
 from student.models import Student
+from subject.models import Subject, StudentHasSubject
 from django.db import connection
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -16,6 +16,7 @@ from school.models import School
 import geopy.distance
 from datetime import datetime
 import pytz
+from .calls import get_statstic, get_statstic_class
 # from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
 
@@ -83,11 +84,16 @@ class AttendanceList(LoginRequiredMixin, ListView):
 
 
     def get_queryset(self):
-       class_val = self.request.GET.get('class')
-       subject_val = self.request.GET.get('subject')
-       sub = Subject.objects.filter(name=subject_val).first()
-       new_context = AttendanceLog.objects.filter(keaclass_id=class_val, subject_id=sub)
-       return new_context
+        class_val = self.request.GET.get('class')
+        subject_val = self.request.GET.get('subject')
+        user = self.request.user
+        if class_val is not None and subject_val is not None:
+           if subject_val == "None":
+                return get_statstic_class(class_val, subject_val)
+           sub = Subject.objects.get(name=subject_val).id
+           return get_statstic(class_val, sub)
+        else:
+            return AttendanceLog.objects.none()
 
     def get_context_data(self, **kwargs):
         context = super(AttendanceList, self).get_context_data(**kwargs)
@@ -97,3 +103,8 @@ class AttendanceList(LoginRequiredMixin, ListView):
 
 def loginsuccess(request):
     return render(request, "attendancecode/Loginsuccess.html")
+
+
+def get_stats(request, keaclass, subject):
+    get_statstic("SDi21", 2)
+    return render(request, "attendancecode/stat.html")

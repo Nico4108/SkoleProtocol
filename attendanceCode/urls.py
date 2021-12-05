@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 from django.views.generic.base import TemplateView
-from .views import AttendanceCodeFormView, AttendanceLogFormView, Attendancelogsuccess, Attendancecodesuccess, AttendanceList, loginsuccess
+from .views import AttendanceCodeFormView, AttendanceLogFormView, Attendancelogsuccess, Attendancecodesuccess, AttendanceList, loginsuccess, get_stats
 
 urlpatterns = [
     path('createattendancecode/', AttendanceCodeFormView.as_view(), name = "create attendance code"),
