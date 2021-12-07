@@ -88,7 +88,7 @@ class AttendanceList(LoginRequiredMixin, ListView):
         subject_val = self.request.GET.get('subject')
         user = self.request.user
         if class_val is not None and subject_val is not None:
-           if subject_val == "None":
+           if subject_val == "None" or  subject_val == "":
                 return get_statstic_class(class_val, subject_val)
            sub = Subject.objects.get(name=subject_val).id
            return get_statstic(class_val, sub)
