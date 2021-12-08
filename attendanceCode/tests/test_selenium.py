@@ -41,6 +41,6 @@ class ShowAttendanceTest(LiveServerTestCase):
     #submit form
     submit.send_keys(Keys.RETURN)
 
-  driver.close()
+  driver.close() 
     #check result; page source looks at entire html document
     # assert 'SDi21' in selenium.page_source
