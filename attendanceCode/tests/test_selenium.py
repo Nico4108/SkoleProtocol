@@ -33,6 +33,9 @@ class ShowAttendanceTest(LiveServerTestCase):
     submit = driver.find_element_by_name('submit')
 
     #populate the form with data
+  
+    class_name.clear()
+    subject_name.clear()
     class_name.send_keys('SDi21')
     subject_name.send_keys('Testing')
  
