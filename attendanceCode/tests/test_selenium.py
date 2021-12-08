@@ -9,7 +9,6 @@ from selenium.webdriver.common.keys import Keys
 class ShowAttendanceTest(LiveServerTestCase):
 
   def test(self):
-    driver.close()
     driver = webdriver.Chrome(executable_path=r"/Users/nadiahansen/SkoleProtocol/venv/chromedriver")
     #Choose your url to visit
     driver.get('http://127.0.0.1:8000/attendancecode/showattendance/')
@@ -41,6 +40,6 @@ class ShowAttendanceTest(LiveServerTestCase):
     #submit form
     submit.send_keys(Keys.RETURN)
 
-  driver.close() 
+    driver.close() 
     #check result; page source looks at entire html document
     # assert 'SDi21' in selenium.page_source
