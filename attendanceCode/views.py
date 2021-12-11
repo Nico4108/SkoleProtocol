@@ -55,8 +55,8 @@ class AttendanceLogFormView(LoginRequiredMixin, CreateView):
         getLocation = School.objects.get(id=getCourse.location_id)
         coords_1 = (getLocation.lat, getLocation.long)
         coords_2 = (obj.lat, obj.long)
-        # check location and that student goes in the class
-        if (geopy.distance.distance(coords_1, coords_2).km > 0.5) and Student.objects.get(
+        # check location and that student goes in the class HUSK AT ÆNDRE
+        if (geopy.distance.distance(coords_1, coords_2).km < 0.5) and Student.objects.get(
                 username=user.username, Class_id=obj.keaclass):
             # check log is a code with correct info and correct date and that
             # student has subject
