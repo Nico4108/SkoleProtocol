@@ -59,7 +59,7 @@ class AttendanceLogFormView(LoginRequiredMixin, CreateView):
         if (geopy.distance.distance(coords_1, coords_2).km < 0.5) and Student.objects.get(
                 username=user.username, Class_id=obj.keaclass):
             # check log is a code with correct info and correct date and that
-            # student has subject
+            # student has subject + code is active
             if AttendanceCode.objects.filter(
                     code=obj.attendanceCode,
                     keaclass_id=obj.keaclass,
@@ -95,9 +95,10 @@ class AttendanceList(LoginRequiredMixin, ListView):
         user = self.request.user
         if class_val is not None and subject_val is not None:
             if subject_val == "None" or subject_val == "":
-                return get_statstic_class(class_val, subject_val)
-            sub = Subject.objects.get(name=subject_val).id
-            return get_statstic(class_val, sub)
+                return get_statstic_class(class_val)
+            else:
+                sub = Subject.objects.get(name=subject_val).id
+                return get_statstic(class_val, sub)
         else:
             return AttendanceLog.objects.none()
 

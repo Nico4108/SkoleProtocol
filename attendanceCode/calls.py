@@ -33,7 +33,7 @@ def get_statstic(keaclass, subject):
         Exception
 
 
-def get_statstic_class(keaclass, subject):
+def get_statstic_class(keaclass):
     try:
         data = []
         LessonsList = AttendanceCode.objects.filter(keaclass=keaclass)

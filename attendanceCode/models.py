@@ -36,7 +36,7 @@ class AttendanceCodeForm(ModelForm):
 
     class Meta:
         model = AttendanceCode
-        exclude = ('id', 'date', 'time', 'isactive')
+        exclude = ('id', 'date', 'time', 'isActive')
         fields = '__all__'
 
 
