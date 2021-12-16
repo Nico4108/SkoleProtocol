@@ -19,7 +19,7 @@ from .calls import get_statstic, get_statstic_class
 # Create your views here.
 
 # CreateView
-class AttendanceCodeFormView(LoginRequiredMixin, CreateView):
+class AttendanceCodeFormView(CreateView):
     model = AttendanceCode
     template_name = "attendancecode/Createattendancecode.html"
     form_class = AttendanceCodeForm
@@ -29,7 +29,7 @@ class AttendanceCodeFormView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         obj = form.save(commit=False)
-        obj.user = self.request.user
+        obj.user = "nadi6548"
         tz_EU = pytz.timezone('Europe/Copenhagen')
         now = datetime.now(tz_EU)
         current_time = now.strftime("%H:%M:%S")
@@ -39,7 +39,7 @@ class AttendanceCodeFormView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class AttendanceLogFormView(LoginRequiredMixin, CreateView):
+class AttendanceLogFormView(CreateView):
     model = AttendanceLog
     template_name = "attendancecode/Createattendancelog.html"
     form_class = AttendanceLogForm
@@ -48,7 +48,7 @@ class AttendanceLogFormView(LoginRequiredMixin, CreateView):
     # Checks if data input is valid and saves object
     def form_valid(self, form):
         obj = form.save(commit=False)
-        user = self.request.user
+        user = "nadi6548"
         obj.date = date.today()
         getClass = Class.objects.get(name=obj.keaclass)
         getCourse = Course.objects.get(name=getClass.Course_name)
@@ -57,7 +57,7 @@ class AttendanceLogFormView(LoginRequiredMixin, CreateView):
         coords_2 = (obj.lat, obj.long)
         # check location and that student goes in the class HUSK AT ÆNDRE
         if (geopy.distance.distance(coords_1, coords_2).km < 0.5) and Student.objects.get(
-                username=user.username, Class_id=obj.keaclass):
+                username=user, Class_id=obj.keaclass):
             # check log is a code with correct info and correct date and that
             # student has subject + code is active
             if AttendanceCode.objects.filter(
@@ -66,9 +66,9 @@ class AttendanceLogFormView(LoginRequiredMixin, CreateView):
                     subject_id=obj.subject_id,
                     date=obj.date,
                     isActive="True") and StudentHasSubject.objects.get(
-                    student_name_id=user.username,
+                    student_name_id=user,
                     subject_name_id=obj.subject_id):
-                obj.username_fk = user.username
+                obj.username_fk = user
                 obj.save()
                 return super().form_valid(form)
             else:
@@ -77,15 +77,15 @@ class AttendanceLogFormView(LoginRequiredMixin, CreateView):
             return render(self.request, './attendancecode/error.html')
 
 
-class Attendancelogsuccess(LoginRequiredMixin, TemplateView):
+class Attendancelogsuccess(TemplateView):
     template_name = "./attendancecode/studentregistersucces.html"
 
 
-class Attendancecodesuccess(LoginRequiredMixin, TemplateView):
+class Attendancecodesuccess(TemplateView):
     template_name = "./attendancecode/teacherregistersucces.html"
 
 
-class AttendanceList(LoginRequiredMixin, ListView):
+class AttendanceList(ListView):
     model = AttendanceLog
     template_name = "./attendancecode/showattendance.html"
 

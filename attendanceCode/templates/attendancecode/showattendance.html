@@ -1,5 +1,6 @@
 {% extends 'base.html'%}
 {% block content %}
+{% csrf_token %}
 <h1>list</h1>
 <form method="get" action="/attendancecode/showattendance/">
     <p> Class <input type="text" value={{class}} name="class"/></p>

@@ -1,12 +1,8 @@
 {% extends 'base.html'%}
-{% load auth_extras %}
 {% block content %}
+{% csrf_token %}
 <h1>Choices</h1>
-{% if request.user|has_group:"TeacherGroup" %} 
 <a href="/attendancecode/createattendancecode/" ><input type="submit" value="Create Code"/></a>
 <a href="/attendancecode/showattendance/" ><input type="submit" value="Show attendance"/></a>
-</form>
-{% else %}
 <a href="/attendancecode/createattendancelog/" ><input type="submit" value="Attendance Code"/></a>
-{% endif %}
 {% endblock %}
