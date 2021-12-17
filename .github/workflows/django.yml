@@ -26,7 +26,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - run: mysql -h 127.0.0.1 --port 8888 -u root -p1234! -e 'CREATE DATABASE IF NOT EXISTS Skoleprotocol;'
+    - run: mysql -h 127.0.0.1 --port 8888 -u root -ppassword -e 'CREATE DATABASE IF NOT EXISTS Skoleprotocol;'
     - name: Set up Python 3.7
       uses: actions/setup-python@v2
       with:
