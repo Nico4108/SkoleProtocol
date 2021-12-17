@@ -24,7 +24,7 @@ class AttendanceCode(models.Model):
     isActive = models.CharField(max_length=6, default="True")
 
     def __str__(self):
-        return "{}".format(self.code)
+        return "{} {} {} {} {}".format(self.code, self.keaclass, self.subject, self.date, self.isActive)
 
     class Meta:
         db_table = 'AttendanceCode'
@@ -56,7 +56,7 @@ class AttendanceLog(models.Model):
         default=12.539170)
 
     def __str__(self):
-        return "{}".format(self.keaclass)
+        return "{} {} {} {} {} {} {}".format(self.attendanceCode, self.username_fk, self.keaclass, self.subject, self.date, self.lat, self.long)
 
     class Meta:
         db_table = 'AttendanceLog'

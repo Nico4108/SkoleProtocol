@@ -2,14 +2,13 @@ name: Django CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ unittests ]
     paths-ignore: '**/SkoleProtocol/attendanceCode/tests/test_selenium.py'
   pull_request:
-    branches: [ master ]
+    branches: [ unittests ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 4
@@ -26,6 +25,9 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+    - name: Django Tests
+      run: |
+        python3 manage.py test
     - name: Coverage report
       run: |
         pip install coverage
@@ -35,6 +37,3 @@ jobs:
       run: |
         pip install flake8
         flake8 ./attendanceCode --exit-zero # Exit with status code "0" even if there are errors.
-    - name: Django Tests
-      run: |
-        python3 manage.py test

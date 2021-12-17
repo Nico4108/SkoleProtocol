@@ -25,8 +25,8 @@ class AttendanceCodeFormView(CreateView):
     form_class = AttendanceCodeForm
     success_url = "/attendancecode/teachersucces/"
 
-    # Checks if data input is valid and saves object
 
+    # Checks if data input is valid and saves object
     def form_valid(self, form):
         obj = form.save(commit=False)
         obj.user = "nadi6548"
@@ -37,7 +37,6 @@ class AttendanceCodeFormView(CreateView):
         obj.time = current_time
         obj.save()
         return super().form_valid(form)
-
 
 class AttendanceLogFormView(CreateView):
     model = AttendanceLog
@@ -72,9 +71,13 @@ class AttendanceLogFormView(CreateView):
                 obj.save()
                 return super().form_valid(form)
             else:
-                return render(self.request, './attendancecode/error.html')
+                return self.form_invalid(form)
         else:
-            return render(self.request, './attendancecode/error.html')
+            return self.form_invalid(form)
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        return render(self.request, './attendancecode/error.html')
 
 
 class Attendancelogsuccess(TemplateView):
@@ -116,3 +119,4 @@ def loginsuccess(request):
 def get_stats(request, keaclass, subject):
     get_statstic("SDi21", 2)
     return render(request, "attendancecode/stat.html")
+

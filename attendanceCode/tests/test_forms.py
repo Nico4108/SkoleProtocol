@@ -65,7 +65,7 @@ class TestForms(TestCase):
     #ATTENDANCE LOG
     def test_AttendanceLog_form_valid_data(self):
         form = AttendanceLogForm(data={
-            'attendanceCode': 21474,
+            'attendanceCode': -223374,
             'keaclass': self.Class,
             'subject': self.Subject,
             'lat': 55.691510,
@@ -85,5 +85,4 @@ class TestForms(TestCase):
     def test_AttendanceLog_form_no_data(self):
         form = AttendanceLogForm(data={})
         self.assertFalse(form.is_valid())
-
     
