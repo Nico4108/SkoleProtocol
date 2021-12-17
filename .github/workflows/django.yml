@@ -28,7 +28,7 @@ jobs:
         pip install -r requirements.txt
     - name: Create test database
       run: |
-        sudo /etc/init.d/mysql start
+        sudo /etc/init.d/mysql start -root -1234!
     - name: Coverage report
       run: |
         pip install coverage
