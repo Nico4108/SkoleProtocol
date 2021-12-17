@@ -1,3 +1,4 @@
+'''
 from django.test import TestCase
 
 # Create your tests here.
@@ -46,3 +47,5 @@ class ShowAttendanceTest(LiveServerTestCase):
     driver.close() 
     #check result; page source looks at entire html document
     # assert 'SDi21' in selenium.page_source
+
+  '''

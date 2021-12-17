@@ -5,6 +5,7 @@ from course.models import Course
 from school.models import School
 from teacher.models import Teacher
 from subject.models import Subject
+from datetime import date
 
 class Testmodels(TestCase):
     def setUp(self):
@@ -45,53 +46,38 @@ class Testmodels(TestCase):
 
         self.attendanceCode1 = AttendanceCode.objects.create(
             id = 1,
-            code = -2147483648,
+            code = -214748,
             keaclass = self.Class,
             subject = self.Subject,
-            date = "2021-02-02",
-            time = "12:12:12",
-            isActive = "True",
-        )
-        
-        self.attendanceCode2 = AttendanceCode.objects.create(
-            id = 2,
-            code = 50,
-            keaclass = self.Class,
-            subject = self.Subject,
-            date = "2021-02-02",
-            time = "12:12:12",
-            isActive = "True",
         )
 
         self.attendanceCode3 = AttendanceCode.objects.create(
-            id = 3,
-            code = 2147483649,
+            code = 2147483,
             keaclass = self.Class,
             subject = self.Subject,
-            date = "2021-02-02",
-            time = "12:12:12",
-            isActive = "True",
         )
 
-        self.attendanceLog = AttendanceCode.objects.create(
-            id = 3,
-            code = 2147483649,
-            keaclass = self.Class,
-            subject = self.Subject,
-            date = "2021-02-02",
-            time = "12:12:12",
-            isActive = "True",
+        self.attendanceLog = AttendanceLog.objects.create(
+            attendanceCode= 2147483, 
+            keaclass= self.Class, 
+            subject=self.Subject
         )
-    '''  
-    def test_attendancecode_model(self):
-        data = self.attendanceCode1
-        self.assertTrue(isinstance(data.code.is_valid())) # ret så den ikke failer, men den siger good
 
     def test_attendancecode_model(self):
         data = self.attendanceCode2 
         self.assertTrue(isinstance(data, AttendanceCode))
+        self.assertEqual(str(data), ("50 SDi21 Testing "+str(date.today())+" True"))
     
     def test_attendancecode_model(self):
         data = self.attendanceCode3 
-        self.assertFalse(isinstance(data, AttendanceCode)) # ret så den ikke failer, men den siger good
-    ''' 
+        self.assertTrue(isinstance(data, AttendanceCode))
+        self.assertEqual(str(data), ("2147483 SDi21 Testing "+str(date.today())+" True"))
+
+    def test_attendancelog_model(self):
+        data = self.attendanceLog 
+        self.assertTrue(isinstance(data, AttendanceLog))
+        self.assertEqual(str(data), ("2147483  SDi21 Testing "+str(date.today())+" 55.70636 12.53917"))
+
+
+
+ 

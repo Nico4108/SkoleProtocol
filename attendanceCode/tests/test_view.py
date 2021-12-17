@@ -7,6 +7,8 @@ from school.models import School
 from teacher.models import Teacher
 from subject.models import Subject
 from django.test import Client
+from datetime import date
+from http import HTTPStatus
 
 class TestForms(TestCase):
     def setUp(self):
@@ -57,13 +59,32 @@ class TestForms(TestCase):
         response = self.client.get(reverse('Attendance List'))
         self.assertEqual(response.status_code, 200)
 
-    def test_attendancecode_create_post(self): # virker nok ikke
-        url = reverse('create attendance code')
-        c = Client()
-        print("heeeeeeey")
-        response = c.post(url, {
-            'code': -91444444444474,
-            'keaclass': self.Class,
-            'subject': self.Subject,
-            })
+    def test_AttendanceCode_create_code_is_correct(self):
+        attendancecode = AttendanceCode.objects.create(code= -9144444, keaclass= self.Class, subject=self.Subject)
+        response = self.client.get(reverse('create attendance code'), kwargs={'code':attendancecode.code})
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(AttendanceCode.objects.last().code, -9144444)
+    
+    def test_Attendancelog_create_data_is_today(self):
+        attendancelog = AttendanceLog.objects.create(attendanceCode= -9144444, keaclass= self.Class, subject=self.Subject)
+        response = self.client.get(reverse('create attendance log'), kwargs={'attendanceCode':attendancelog.attendanceCode})
+        self.assertEqual(response.status_code, 200)
+        print(AttendanceLog.objects.last())
+        self.assertEqual(AttendanceLog.objects.last().date, date.today())
+
+
+    def test_post_new_attendance_log(self):
+        response = self.client.post(reverse('create attendance log'), data={'code': "-1555555", 'keaclass':"SDi21", 'subject':'Testing'})
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+    
+    def test_attendance_code_Form_code_is_required(self):
+        response = self.client.post(reverse('create attendance code'), {'keaclass':"SDi21", 'subject':'Testing'})
+        self.assertFormError(response, 'form', 'code', 'This field is required.')
+    
+    def test_attendance_code_Form_keaclass_is_required(self):
+        response = self.client.post(reverse('create attendance code'), {'code': '-1555555', 'subject':'Testing'})
+        self.assertFormError(response, 'form', 'keaclass', 'This field is required.')
+    
+    def test_attendance_code_Form_subject_is_required(self):
+        response = self.client.post(reverse('create attendance code'), {'code': '-1555555', 'keaclass':"SDi21"})
+        self.assertFormError(response, 'form', 'subject', 'This field is required.')

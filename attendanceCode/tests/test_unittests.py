@@ -1,6 +1,6 @@
 from django.test import TestCase, SimpleTestCase
 from attendanceCode.models import AttendanceCode, AttendanceLog
-from keaclass.models import Class
+from keaclass.models import Class as keaclasss
 from course.models import Course
 from school.models import School
 from subject.models import Subject
@@ -8,7 +8,7 @@ from teacher.models import Teacher
 from student.models import Student
 from django.urls import reverse
 from django.test import Client
-from attendanceCode.calls import get_statstic, get_statstic_class
+import attendanceCode.calls as func
 from django.test import RequestFactory
 
 # from django.contrib.auth import User 
@@ -40,12 +40,12 @@ class TestForms(TestCase):
         )
         test_course1.save()
         
-        test_class1 = Class.objects.create(
+        test_class = keaclasss.objects.create(
             name="SDi21",
             year_started="2021",
             Course_name=test_course1
         )
-        test_class1.save()
+        test_class.save()
         test_teacher1 = Teacher.objects.create(
             username="Andera44",
             First_name="Andrea",
@@ -55,7 +55,7 @@ class TestForms(TestCase):
         )
         test_teacher1.save()
 
-        test_subject1= Subject.objects.create(
+        test_subject1 = Subject.objects.create(
             name="Testing",
             teacher=test_teacher1
         )
@@ -63,26 +63,33 @@ class TestForms(TestCase):
 
         test_attendanceCode = AttendanceCode.objects.create(
              code=111,
-            keaclass=test_class1,
+            keaclass=test_class,
             subject=test_subject1
         )
         test_attendanceLog = AttendanceLog.objects.create(
             attendanceCode=111,
-            keaclass=test_class1,
+            keaclass=test_class,
             subject=test_subject1,
             lat=55.691510,
             long=12.555130
         )
-        test_student = Student.objects.create()
+        test_student = Student.objects.create(
+            username = "Nadi6548",
+            First_name = "nadia",
+            Last_name = "hansen",
+            Email = "test",
+            date_joined = "2021-01-20" ,
+            Course = test_course1,
+            Class = test_class,
+        )
 
-class TestLogIn(TestCase):
-    def test_user(self):
+    def test_user_log_in(self):
         c = Client()
-        response = c.get('/accounts/login/', {'username': 'tester', 'password': 'testing1password1'})
+        response = c.post('/accounts/login/', {'username': 'tester', 'password': 'testing1password1'})
         code = response.status_code
         self.assertEqual(code, 200)
 
-    def test_view1(self):
+    def test_post_method(self):
         c = Client()
         url=reverse("create attendance code")
         response = c.post(url, {
@@ -92,8 +99,23 @@ class TestLogIn(TestCase):
         })
         self.assertEqual(response.status_code, 200) 
 
-    def test_get_queryset(self):
-        keaclass = 'SDi21'
-        response = get_statstic_class(keaclass)
-        print(response)
-    
+    def test_test(self):
+        school1= {
+            "id":"1",
+            "name":"KEA",
+            "phone":"20434565",
+            "adress":"Guldbergsgade",
+            "lat":"55.691510",
+            "long":"12.555130"
+        }
+        course1 = {
+            "id":"1",
+            "name":"Software Development",
+            "department":"Digital",
+            "location":school1
+        }
+        keaclass1 = {
+            "name":"SDi21",
+            "year_started":"2021",
+            "Course_name":course1
+        }
