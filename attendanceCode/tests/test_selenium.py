@@ -14,6 +14,7 @@ from random import randrange
 class ShowAttendanceTest(LiveServerTestCase, unittest.TestCase):
 
   att_code = randrange(500000)
+  att_code2 = randrange(500000)
   # Create Attendance Code
   def test1(self):
     driver = webdriver.Chrome(executable_path=r"/Users/nicspiegelhauer/Documents/Skole/6. Semester SD/Testing/SkoleProtocol/venv/chromedriver")
@@ -59,15 +60,15 @@ class ShowAttendanceTest(LiveServerTestCase, unittest.TestCase):
     if self.assertEquals(code_registered, correct_str) is None:
       print('Attendance Code Registered test passed:', self.assertEquals(code_registered, correct_str) is None)
       time.sleep(1.5)
-
     driver.close()
+    
   # Student login and registre attencdance code
   def test2(self):
     driver = webdriver.Chrome(executable_path=r"/Users/nicspiegelhauer/Documents/Skole/6. Semester SD/Testing/SkoleProtocol/venv/chromedriver")
     #Choose your url to visit
     driver.get('http://127.0.0.1:8000/accounts/login/')
     driver.maximize_window() # For maximizing window
-    driver.implicitly_wait(5) # gives an implicit wait for 5 seconds
+    driver.implicitly_wait(3) # gives an implicit wait for 3 seconds
     #find the elements you need to submit form
 
     username = driver.find_element_by_id('id_username')
@@ -131,9 +132,11 @@ class ShowAttendanceTest(LiveServerTestCase, unittest.TestCase):
       
       submitt = driver.find_element_by_id('submit')
       submitt.send_keys(Keys.RETURN)
-
-      er = driver.find_element_by_id('error').text
-      correct_str = 'heeeeej du forkert på den'
+      
+      time.sleep(1.5)
+      correct = driver.find_element_by_id('reg ok').text
+      correct_str = 'you been registered'
+      print('Student registered corret code test passed: ', self.assertTrue(correct, correct_str) is None)
 
       driver.close() 
 
@@ -143,7 +146,7 @@ class ShowAttendanceTest(LiveServerTestCase, unittest.TestCase):
       #Choose your url to visit
       driver.get('http://127.0.0.1:8000/attendancecode/showattendance/')
       driver.maximize_window() # For maximizing window
-      driver.implicitly_wait(5) # gives an implicit wait for 5 seconds
+      driver.implicitly_wait(3) # gives an implicit wait for 5 seconds
       #find the elements you need to submit form
 
       username = driver.find_element_by_id('id_username')
@@ -153,7 +156,7 @@ class ShowAttendanceTest(LiveServerTestCase, unittest.TestCase):
       username.send_keys('Thea')
       password.send_keys('1234!')
       driver.implicitly_wait(3)
-      time.sleep(1)
+      time.sleep(1.5)
       login.send_keys(Keys.RETURN)
 
       driver.implicitly_wait(3)
@@ -167,10 +170,14 @@ class ShowAttendanceTest(LiveServerTestCase, unittest.TestCase):
       subject_name.clear()
       class_name.send_keys('SDi21')
       subject_name.send_keys('Testing')
-      time.sleep(1)
-
+      time.sleep(1.5)
       #submit form
       submit.send_keys(Keys.RETURN)
+
+      stud_text = driver.find_element_by_id('students')
+      corret_text = 'Studens'
+      print('Show attendans list test passed: ', self.assertTrue(stud_text, corret_text) is None)
+      time.sleep(3)
       driver.close()
   
   # Login test
@@ -179,7 +186,7 @@ class ShowAttendanceTest(LiveServerTestCase, unittest.TestCase):
       #Choose your url to visit
       driver.get('http://127.0.0.1:8000/accounts/login/')
       driver.maximize_window() # For maximizing window
-      driver.implicitly_wait(5) # gives an implicit wait for 5 seconds
+      driver.implicitly_wait(3) # gives an implicit wait for 5 seconds
       #find the elements you need to submit for
 
       username_teacher = driver.find_element_by_id('id_username')
@@ -304,7 +311,7 @@ class ShowAttendanceTest(LiveServerTestCase, unittest.TestCase):
     subject_new1 = driver.find_element_by_id("id_subject")
 
     code_new1.clear()
-    code_new1.send_keys(self.att_code)
+    code_new1.send_keys(self.att_code2)
     keaclass_new1.send_keys('SDi21')
     subject_new1.send_keys('Testing')
 
@@ -346,7 +353,7 @@ class ShowAttendanceTest(LiveServerTestCase, unittest.TestCase):
     keaclass_new2 = driver.find_element_by_id('id_keaclass')
     subject_new2 = driver.find_element_by_id("id_subject")
 
-    code_new2.send_keys(self.att_code)
+    code_new2.send_keys(self.att_code2)
     keaclass_new2.send_keys('')
     subject_new2.send_keys('Testing')
     time.sleep(1.5)

@@ -7,7 +7,7 @@
     <p><input type="submit" value="submit" name="submit"/></p>
 </form>
 
-    <h2>Students</h2>
+    <h2 id="students" >Students</h2>
     <ul>
         {% for attendance in object_list %}
             <li>{{ attendance.name}} has attended {{ attendance.countAttendance }} out of {{attendance.countLessons}} {{attendance.procentage}} </li>
