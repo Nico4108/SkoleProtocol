@@ -28,7 +28,7 @@ jobs:
         pip install -r requirements.txt
     - name: Create test database
       run: |
-        sudo service mysql start mysql -u root -p 1234! -h 127.0.0.1
+        sudo service mysql start
     - name: Coverage report
       run: |
         pip install coverage
