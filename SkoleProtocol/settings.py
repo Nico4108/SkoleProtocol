@@ -89,11 +89,11 @@ WSGI_APPLICATION = 'SkoleProtocol.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Skoleprotocol',
+        'NAME': 'testing',
         'USER': 'root',
-        'HOST': 'localhost',
+        'HOST': '127.0.01',
         'PORT': '3306',
-        'PASSWORD': '1234!',
+        'PASSWORD': '1234!!',
     }
 }
 

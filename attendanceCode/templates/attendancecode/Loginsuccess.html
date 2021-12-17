@@ -1,12 +1,12 @@
 {% extends 'base.html'%}
 {% load auth_extras %}
 {% block content %}
-<h1>Choices</h1>
+<h1 id="choices">Choices</h1>
 {% if request.user|has_group:"TeacherGroup" %} 
-<a href="/attendancecode/createattendancecode/" ><input type="submit" value="Create Code"/></a>
+<a href="/attendancecode/createattendancecode/" ><input type="submit" value="Create Code" id="id_cc"/></a>
 <a href="/attendancecode/showattendance/" ><input type="submit" value="Show attendance"/></a>
 </form>
 {% else %}
-<a href="/attendancecode/createattendancelog/" ><input type="submit" value="Attendance Code"/></a>
+<a href="/attendancecode/createattendancelog/" ><input type="submit" value="Attendance Code" id="create log"/></a>
 {% endif %}
 {% endblock %}

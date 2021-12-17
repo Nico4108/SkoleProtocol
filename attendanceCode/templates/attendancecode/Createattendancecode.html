@@ -1,7 +1,7 @@
 {% extends 'base.html'%}
 {% load auth_extras %}
 {% block content %}
-<h1>Create attendance code</h1>
+<h1 id="create att code">Create attendance code</h1>
 {% if request.user|has_group:"TeacherGroup" %} 
 <form action="/attendancecode/createattendancecode/" method="post">  
   {% csrf_token %}
