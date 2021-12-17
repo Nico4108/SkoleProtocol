@@ -97,7 +97,7 @@ class TestForms(TestCase):
             'keaclass':'SDi21',
             'subject':'1'
         })
-        self.assertEqual(response.status_code, 200) 
+        self.assertEqual(response.status_code, 302) 
 
     def test_test(self):
         school1= {
@@ -119,7 +119,7 @@ class TestForms(TestCase):
             "year_started":"2021",
             "Course_name":course1
         }
-    
+    '''
     def test_test(self):
         view_url = reverse("create attendance code")
         expected_in_output = 'A1b2c9'
@@ -132,3 +132,4 @@ class TestForms(TestCase):
             # in your form_valid method
         response=c.post( view_url, data)   
         self.assertIn(expected_in_output, response.content.decode() )
+        '''
