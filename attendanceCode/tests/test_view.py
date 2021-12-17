@@ -69,9 +69,7 @@ class TestForms(TestCase):
         attendancelog = AttendanceLog.objects.create(attendanceCode= -9144444, keaclass= self.Class, subject=self.Subject)
         response = self.client.get(reverse('create attendance log'), kwargs={'attendanceCode':attendancelog.attendanceCode})
         self.assertEqual(response.status_code, 200)
-        print(AttendanceLog.objects.last())
         self.assertEqual(AttendanceLog.objects.last().date, date.today())
-
 
     def test_post_new_attendance_log(self):
         response = self.client.post(reverse('create attendance log'), data={'code': "-1555555", 'keaclass':"SDi21", 'subject':'Testing'})
@@ -88,3 +86,18 @@ class TestForms(TestCase):
     def test_attendance_code_Form_subject_is_required(self):
         response = self.client.post(reverse('create attendance code'), {'code': '-1555555', 'keaclass':"SDi21"})
         self.assertFormError(response, 'form', 'subject', 'This field is required.')
+    '''
+    def test0035(self): 
+    c = Client()
+    #login_ok = c.login(username='shipping', password='test') # failed?
+    #self.assertTrue( login_ok)        
+    view_url = reverse('create attendance log')
+    expected_in_output = 'A1b2c9'
+    data = {
+        'key':'value', ...
+        # stuff that will satisfy form.is_valid(), but fail the tests
+        # in your form_valid method
+    } 
+    response=c.post( view_url, data)   
+    self.assertIn( expected_in_output, response.content.decode() )
+    '''

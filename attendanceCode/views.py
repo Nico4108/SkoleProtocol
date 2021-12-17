@@ -71,9 +71,13 @@ class AttendanceLogFormView(CreateView):
                 obj.save()
                 return super().form_valid(form)
             else:
-                return render(self.request, './attendancecode/error.html')
+                return self.form_invalid(form)
         else:
-            return render(self.request, './attendancecode/error.html')
+            return self.form_invalid(form)
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        return render(self.request, './attendancecode/error.html')
 
 
 class Attendancelogsuccess(TemplateView):

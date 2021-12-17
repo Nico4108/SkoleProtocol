@@ -119,3 +119,16 @@ class TestForms(TestCase):
             "year_started":"2021",
             "Course_name":course1
         }
+    
+    def test_test(self):
+        view_url = reverse("create attendance code")
+        expected_in_output = 'A1b2c9'
+        data = {
+            'code':'777',
+            'keaclass':'SDi21',
+            'subject':'1'
+        }
+            # stuff that will satisfy form.is_valid(), but fail the tests
+            # in your form_valid method
+        response=c.post( view_url, data)   
+        self.assertIn(expected_in_output, response.content.decode() )
