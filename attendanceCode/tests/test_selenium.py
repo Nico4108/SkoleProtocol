@@ -124,7 +124,7 @@ class ShowAttendanceTest(LiveServerTestCase, unittest.TestCase):
       id_ac.send_keys(self.att_code)
       id_kc.send_keys('SDi21')
       id_sub.send_keys('Testing')
-      time.sleep(1.5)
+      time.sleep(3)
       
       self.assertIsNotNone(id_ac, 'No Attendance Code input')
       self.assertIsNotNone(id_kc, 'No Class input')
@@ -134,7 +134,7 @@ class ShowAttendanceTest(LiveServerTestCase, unittest.TestCase):
       submitt.send_keys(Keys.RETURN)
       
       time.sleep(1.5)
-      correct = driver.find_element_by_id('reg ok').text
+      correct = driver.find_element_by_id('reg_ok').text
       correct_str = 'you been registered'
       print('Student registered corret code test passed: ', self.assertTrue(correct, correct_str) is None)
 

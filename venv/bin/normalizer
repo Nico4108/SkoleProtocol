@@ -1,4 +1,6 @@
-#!/Users/nadiahansen/SkoleProtocol/venv/bin/python3.9
+#!/bin/sh
+'''exec' "/Users/nicspiegelhauer/Documents/Skole/6. Semester SD/Testing/SkoleProtocol/venv/bin/python" "$0" "$@"
+' '''
 # -*- coding: utf-8 -*-
 import re
 import sys

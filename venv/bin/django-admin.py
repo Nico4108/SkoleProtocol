@@ -1,4 +1,4 @@
-#!/Users/nadiahansen/SkoleProtocol/venv/bin/python3.9
+#!/Users/nicspiegelhauer/Documents/Skole/6. Semester SD/Testing/SkoleProtocol/venv/bin/python
 # When the django-admin.py deprecation ends, remove this script.
 import warnings
 
